@@ -83,3 +83,42 @@ void getMove(int& row, int& col, char player) {
         row--; col--; // Convert to 0-based indexing
     } while (!isValidMove(row, col));
 }
+void playGame() {
+    char player = 'X';
+    int row, col;
+    bool gameOver = false;
+initBoard();
+displayBoard();
+
+while (!gameOver) {
+    getMove(row, col, player);
+    board[row][col] = player;
+    displayBoard();
+    gameOver = isGameOver();
+    if (!gameOver) {
+        player = (player == 'X') ? 'O' : 'X';
+    }
+}
+
+// Game is over, declare winner or tie
+if (player == 'X') {
+    cout << "Player O wins!" << endl;
+}
+else if (player == 'O') {
+    cout << "Player X wins!" << endl;
+}
+else {
+    cout << "Tie game!" << endl;
+}
+
+// Deallocate memory for the board
+for (int i = 0; i < boardSize; i++) {
+    delete[] board[i];
+}
+delete[] board;
+}
+
+int main() {
+    playGame();
+    return 0;
+}
